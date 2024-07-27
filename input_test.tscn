@@ -32,13 +32,13 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_21xey")
 hframes = 42
 
-[node name="btnright" type="Button" parent="."]
+[node name="btnRight" type="Button" parent="."]
 offset_left = 166.0
 offset_top = 90.0
 offset_right = 218.0
 offset_bottom = 132.0
 
-[node name="sptRt" type="Sprite2D" parent="btnright"]
+[node name="sptRt" type="Sprite2D" parent="btnRight"]
 texture_filter = 1
 position = Vector2(26, 20)
 scale = Vector2(2, 2)
@@ -67,12 +67,12 @@ text = "Input Key :"
 
 [node name="sptInput" type="Sprite2D" parent="Label"]
 texture_filter = 1
-position = Vector2(-393, -253)
+position = Vector2(39, 53)
 scale = Vector2(2, 2)
 texture = ExtResource("2_21xey")
 hframes = 42
 
 [connection signal="pressed" from="btnUp" to="." method="_on_btn_up_pressed"]
 [connection signal="pressed" from="btnDown" to="." method="_on_btn_down_pressed"]
-[connection signal="pressed" from="btnright" to="." method="_on_btnright_pressed"]
+[connection signal="pressed" from="btnRight" to="." method="_on_btn_right_pressed"]
 [connection signal="pressed" from="btnLeft" to="." method="_on_btn_left_pressed"]

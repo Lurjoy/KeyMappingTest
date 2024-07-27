@@ -1,4 +1,6 @@
 extends Node2D
+
+# 스프라이트 - 키 매핑
 var key_sprite_map = {
 	"JOY_XBOX_A": 0,
 	"JOY_XBOX_B": 1,
@@ -47,68 +49,69 @@ var key_mapping = {
 
 # 현재 설정할 액션 이름
 var current_action = ""
-
-# Sprite 노드 참조
-@onready var spt_up = $btnUp/sptUP
+@onready var spt_up = $btnUp/sptUp
 @onready var spt_dn = $btnDown/sptDn
-@onready var spt_rt = $btnright/sptRt
+@onready var spt_rt = $btnRight/sptRt
 @onready var spt_lt = $btnLeft/sptLt
+
+# 현재 입력한 키를 보여주는 노드
 @onready var spt_input = $Label/sptInput
 
 # 버튼 노드 참조
 @onready var btn_up = $btnUp
 @onready var btn_down = $btnDown
-@onready var btn_right = $btnright
+@onready var btn_right = $btnRight
 @onready var btn_left = $btnLeft
 
+# 현재 리매핑 상태인지 구분하는 변수
+var is_input = false
+
 func _ready():
-	btn_up.pressed.connect(self._on_btn_up_pressed)
-	btn_down.pressed.connect(self._on_btn_down_pressed)
-	btn_right.pressed.connect(self._on_btn_right_pressed)
-	btn_left.pressed.connect(self._on_btn_left_pressed)
 	update_sprites()
 
 # 버튼 클릭 시 호출되는 함수
+# 버튼을 클릭하면, 리매핑 상태가 됨.
 func _on_btn_up_pressed():
 	current_action = "up"
-	show_input_prompt()
+	is_input = true
 
 func _on_btn_down_pressed():
 	current_action = "down"
-	show_input_prompt()
+	is_input = true
 
 func _on_btn_right_pressed():
 	current_action = "right"
-	show_input_prompt()
+	is_input = true
 
 func _on_btn_left_pressed():
 	current_action = "left"
-	show_input_prompt()
-
-# 사용자 입력 대기 상태 표시 함수
-func show_input_prompt():
-	spt_input.visible = true
-
+	is_input = true
+	
 # 키 매핑 변경 및 스프라이트 업데이트 함수
 func _input(event):
-	if spt_input.visible:
-		if event is InputEventKey:
-			key_mapping[current_action] = event.scancode
-			spt_input.visible = false
+	if is_input:
+		# 리매핑 상태시, 키를 누르면
+		if event is InputEventKey and event.pressed:
+			# 해당 매핑된 키를 누른 키로 대체한다.
+			key_mapping[current_action] = event.physical_keycode
+			# 리매핑 상태 종료.
+			is_input = false
 			update_sprites()
-		elif event is InputEventJoypadButton:
+		# 리매핑 상태시, 조이패드 버튼 대응.
+		elif event is InputEventJoypadButton and event.pressed:
 			key_mapping[current_action] = "joypad_button_" + str(event.button_index)
-			spt_input.visible = false
+			is_input = false
 			update_sprites()
-
+		# 리매핑 상태가 아니면, (일반 상태라면)
+		# 누른 키를 해당 스프라이트에 표시한다.
+	else :
+		if event is InputEventKey and event.pressed:
+			spt_input.frame = key_sprite_map.get(event.physical_keycode)
+		
 # 스프라이트 업데이트 함수
-func update_sprites():
+func update_sprites():	
 	spt_up.frame = key_sprite_map.get(key_mapping["up"], -1)
 	spt_dn.frame = key_sprite_map.get(key_mapping["down"], -1)
 	spt_rt.frame = key_sprite_map.get(key_mapping["right"], -1)
 	spt_lt.frame = key_sprite_map.get(key_mapping["left"], -1)
-
-
-func _on_btnright_pressed():
-	current_action = "right"
-	show_input_prompt()
+	
