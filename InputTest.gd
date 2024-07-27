@@ -107,3 +107,8 @@ func update_sprites():
 	spt_dn.frame = key_sprite_map.get(key_mapping["down"], -1)
 	spt_rt.frame = key_sprite_map.get(key_mapping["right"], -1)
 	spt_lt.frame = key_sprite_map.get(key_mapping["left"], -1)
+
+
+func _on_btnright_pressed():
+	current_action = "right"
+	show_input_prompt()

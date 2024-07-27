@@ -12,6 +12,13 @@ offset_top = 38.0
 offset_right = 155.0
 offset_bottom = 80.0
 
+[node name="sptUp" type="Sprite2D" parent="btnUp"]
+texture_filter = 1
+position = Vector2(25, 21)
+scale = Vector2(2, 2)
+texture = ExtResource("2_21xey")
+hframes = 42
+
 [node name="btnDown" type="Button" parent="."]
 offset_left = 103.0
 offset_top = 140.0
@@ -64,3 +71,8 @@ position = Vector2(-393, -253)
 scale = Vector2(2, 2)
 texture = ExtResource("2_21xey")
 hframes = 42
+
+[connection signal="pressed" from="btnUp" to="." method="_on_btn_up_pressed"]
+[connection signal="pressed" from="btnDown" to="." method="_on_btn_down_pressed"]
+[connection signal="pressed" from="btnright" to="." method="_on_btnright_pressed"]
+[connection signal="pressed" from="btnLeft" to="." method="_on_btn_left_pressed"]
