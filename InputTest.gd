@@ -2,12 +2,12 @@ extends Node2D
 
 # 스프라이트 - 키 매핑
 var key_sprite_map = {
-	"JOY_XBOX_A": 0,
-	"JOY_XBOX_B": 1,
-	"JOY_XBOX_X": 2,
-	"JOY_XBOX_Y": 3,
-	"JOY_START": 6,
-	"JOY_SELECT": 7,
+	JOY_BUTTON_A: 0,
+	JOY_BUTTON_B: 1,
+	JOY_BUTTON_X: 2,
+	JOY_BUTTON_Y: 3,
+	JOY_BUTTON_START: 6,
+	JOY_BUTTON_BACK: 7,
 	Key.KEY_A: 13,
 	Key.KEY_B: 14,
 	Key.KEY_C: 15,
@@ -99,7 +99,7 @@ func _input(event):
 			update_sprites()
 		# 리매핑 상태시, 조이패드 버튼 대응.
 		elif event is InputEventJoypadButton and event.pressed:
-			key_mapping[current_action] = "joypad_button_" + str(event.button_index)
+			key_mapping[current_action] = event.button_index
 			is_input = false
 			update_sprites()
 		# 리매핑 상태가 아니면, (일반 상태라면)
@@ -107,6 +107,8 @@ func _input(event):
 	else :
 		if event is InputEventKey and event.pressed:
 			spt_input.frame = key_sprite_map.get(event.physical_keycode)
+		elif event is InputEventJoypadButton and event.pressed:
+			spt_input.frame = key_sprite_map.get(event.button_index)
 		
 # 스프라이트 업데이트 함수
 func update_sprites():	
